@@ -1,26 +1,21 @@
-## Tour of Heroes: HTTP
+## Tour of Heroes: Aqueduct
 
-Welcome to the example app used in the
-[Tour of Heroes: HTTP](https://webdev.dartlang.org/angular/tutorial/toh-pt6) page
-of [Dart for the web](https://webdev.dartlang.org).
+This is the companion application for the official [Aqueduct tutorial](https://aqueduct.io/docs/tut/getting-started/).
 
-You can run a [hosted copy](https://webdev.dartlang.org/examples/toh-6) of this
-sample. Or run your own copy:
+It has been modified from the original [AngularDart tutorial](https://webdev.dartlang.org/angular/tutorial) to make HTTP requests to the Aqueduct tutorial application running on your machine.  
 
-1. Create a local copy of this repo (use the "Clone or download" button above).
-2. Get the dependencies: `pub get`
-3. Launch a development server: `pub serve`
-4. In a browser, open [http://localhost:8080](http://localhost:8080)
+To run this application:
 
-In Dartium, you'll see the app right away. In other modern browsers,
-you'll have to wait a bit while pub converts the app.
+```bash
+pub serve
+```
 
----
+A Dockerfile and Kubernetes configuration file is available for deployment. To run on Google Cloud:
 
-*Note:* The content of this repository is generated from the
-[Angular docs repository][docs repo] by running the
-[dart-doc-syncer](//github.com/dart-lang/dart-doc-syncer) tool.
-If you find a problem with this sample's code, please open an [issue][].
+```bash
+docker build -t gcr.io/<your-project-name>/tour-of-heroes:latest .
+gcloud docker -- push gcr.io/<your-project-name>/tour-of-heroes:latest
+kubectl apply -f k8s/
+```
 
-[docs repo]: //github.com/dart-lang/site-webdev/tree/master/examples/ng/doc/toh-6
-[issue]: //github.com/dart-lang/site-webdev/issues/new?title=examples/ng/doc/toh-6
+This configuration file assumes your cluster has an `nginx-ingress-controller`. To run with Google Cloud Load Balancers, remove the `kubernetes.io/ingress.class: "nginx"` annotation from the Ingress resource.
