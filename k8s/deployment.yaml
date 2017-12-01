@@ -25,7 +25,7 @@ spec:
       containers:
         - name: aqueduct-tutorial
           imagePullPolicy: Always
-          image: gcr.io/sk-tools-180203/
+          image: $IMAGE_NAME
           ports:
             - containerPort: 80
 ---
