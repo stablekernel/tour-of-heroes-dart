@@ -13,6 +13,7 @@ pub serve
 A Dockerfile and Kubernetes configuration file is available for deployment. To run on Google Cloud:
 
 ```bash
+pub build
 docker build -t gcr.io/<your-project-name>/tour-of-heroes:latest .
 gcloud docker -- push gcr.io/<your-project-name>/tour-of-heroes:latest
 kubectl apply -f k8s/
