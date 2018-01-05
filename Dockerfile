@@ -1,5 +1,25 @@
+FROM google/dart AS build-env
+WORKDIR /app
+
+ADD pubspec.* /app/
+RUN pub get --no-precompile
+ADD . /app/
+RUN pub get --offline --no-precompile
+RUN pub build
+
 FROM nginx
 
-COPY ./build/web /usr/share/nginx/html
+COPY --from=build-env /app/build/web /usr/share/nginx/html
+COPY default.conf /etc/nginx/conf.d/default.conf
+COPY nginx.conf /etc/nginx/nginx.conf
 
-EXPOSE 80
+RUN groupadd -r angular
+RUN useradd -m -r -g angular angular
+
+RUN touch /var/run/nginx.pid && \
+  chown -R angular:angular /var/run/nginx.pid && \
+  chown -R angular:angular /var/cache/nginx
+
+USER angular
+
+EXPOSE 8080
